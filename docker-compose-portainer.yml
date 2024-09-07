@@ -1,5 +1,7 @@
 # replacement for docker-compose.yml for use in portainer 
 
+name: odoo
+
 services:
   odoo:
     build:
@@ -54,8 +56,6 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_BUCKETNAME
-    networks:
-      - internal
     profiles: [$ODOO_PROFILES]
 
   postgres:
@@ -81,8 +81,6 @@ services:
       - PGADMING_DB_NAME
       - PGADMING_DB_USER
       - PGADMIN_DB_PASSWORD
-    networks:
-      - internal
     profiles: [$POSTGRES_PROFILES]
 
   nginx:
@@ -102,8 +100,6 @@ services:
       - LETSENCRYPT_HOST
       - LETSENCRYPT_EMAIL
       - CORS_ALLOWED_DOMAIN
-    networks:
-      - internal
     profiles: [$NGINX_PROFILES]
 
   nginx-proxy:
@@ -123,8 +119,6 @@ services:
     environment:
       - TRUST_DOWNSTREAM_PROXY
       - CORS_ALLOWED_DOMAIN
-    networks:
-      - internal
     profiles: [$NGINX_PROXY_PROFILES]
 
   letsencrypt:
@@ -143,8 +137,6 @@ services:
       - ACME_CA_URI
       - CERTS_UPDATE_INTERVAL
       - DEFAULT_EMAIL
-    networks:
-      - internal
     profiles: [$ACME_COMPANION_PROFILES]
 
   redis:
@@ -156,8 +148,6 @@ services:
       - redis-data:${KEYDB_DATA}
     env_file:
       - stack.env
-    networks:
-      - internal
     profiles: [$KEYDB_PROFILES]
 
   s3:
@@ -176,8 +166,6 @@ services:
     ports:
       - ${MINIO_API_PORT}:${MINIO_API_PORT}
       - ${MINIO_CONSOLE_PORT}:${MINIO_CONSOLE_PORT}
-    networks:
-      - internal
     profiles: [$MINIO_PROFILES]
 
   pgadmin:
@@ -220,6 +208,4 @@ services:
       - PGADMIN_CONFIG_SECURITY_EMAIL_SENDER
       - PGADMIN_CONFIG_ALLOW_SAVE_TUNNEL_PASSWORD
       - PGADMIN_CONFIG_MAX_LOGIN_ATTEMPTS
-    networks:
-      - internal
     profiles: [$PGADMIN_PROFILES]
